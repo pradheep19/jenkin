@@ -1,25 +1,29 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('* * * * *')
+    }
+
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Checkout stage from Git'
+                echo 'Pulling latest code from GitHub...'
             }
         }
 
-        stage('Build') {
+        stage('Compile') {
             steps {
-                echo 'Build stage from Git'
-                
-
+                echo 'Compiling Java code...'
+                bat 'javac Hello.java'
             }
         }
 
-        stage('Test') {
+        stage('Archive Artifacts') {
             steps {
-                echo 'Test stage from Git'
+                echo 'Archiving .class file...'
+                archiveArtifacts artifacts: '*.class', fingerprint: true
             }
         }
 
@@ -28,11 +32,11 @@ pipeline {
     post {
 
         success {
-            echo 'Build Successful '
+            echo 'CI Pipeline Successful '
         }
 
         failure {
-            echo 'Build Failed '
+            echo 'CI Pipeline Failed '
         }
 
     }
