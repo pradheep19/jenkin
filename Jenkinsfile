@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build stage from Git'
-                error "Forcing failure"
+                
 
             }
         }
